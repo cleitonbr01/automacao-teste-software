@@ -7,7 +7,8 @@ import java.time.format.*;
 public class LancamentoUtil {
 
 
-               /** Isolei o Gera Valor aqui para poder ser chamado nas classes, de forma a ser melhor visualizado */
+        /**
+         * Isolei o Gera Valor aqui para poder ser chamado nas classes, de forma obter melhor visualização */
     public static BigDecimal geraValorAleatorio() {
 
         boolean aplicaVariante = (System.currentTimeMillis() % 3) == 0;
@@ -22,9 +23,8 @@ public class LancamentoUtil {
                 RoundingMode.HALF_DOWN);
     }
 
-
-
-        /** Este método transforma basicamente data em texto  */
+        /** Este método transforma basicamente data em texto.
+         * Além disso, adicionei o segundo (:ss) para garantir que esse lançamento fosse único dentro da listagem*/
 
     public static DateTimeFormatter getDateTimeFormatter() {
         return DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");

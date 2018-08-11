@@ -51,7 +51,7 @@ public class ListaLancamentosPage {
     }
 
     public void recarrega() {
-        driver.findElement(By.id("itemBusca")).click();
+        driver.findElement(By.id("bth-search")).click();
     }
 
     public void editaLancamento(int posicao) {
