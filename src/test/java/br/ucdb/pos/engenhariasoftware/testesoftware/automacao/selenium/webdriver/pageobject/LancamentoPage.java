@@ -80,7 +80,7 @@ public class LancamentoPage {
         return driver.findElement(By.cssSelector(".alert-danger")).getText().contains(mensagem);
     }
 
-    private void salva() {
+    public void salva() {
         driver.findElement(By.id("btnSalvar")).click();
     }
 
@@ -88,5 +88,4 @@ public class LancamentoPage {
         driver.findElement(By.id("cancelar")).click();
     }
 }
-
 

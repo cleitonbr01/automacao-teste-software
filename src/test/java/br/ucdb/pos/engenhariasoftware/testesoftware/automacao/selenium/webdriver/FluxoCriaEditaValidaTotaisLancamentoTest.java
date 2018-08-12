@@ -9,11 +9,10 @@ import java.time.*;
 
 import static org.testng.Assert.*;
 
+                /** Fluxo 4: Acessar  listagem, criar novo lançamento, validar lançamento criado, validar
+                 *totais de saída e entrada e acessar relatórios;*/
 
-                /**  Fluxo 3: Acessar listagem, criar novo lançamento, validar lançamento criado, editar
-                 * lançamento, validar edição, remover lançamento e validar remoção;*/
-
-public class FluxoCriaEditaRemoveLancamentoTest {
+public class FluxoCriaEditaValidaTotaisLancamentoTest {
 
     private WebDriver driver;
 
@@ -21,21 +20,25 @@ public class FluxoCriaEditaRemoveLancamentoTest {
 
     private LancamentoPage lancamentoPage;
 
+            /* Essa classe relatoriosPage foi adicionada ao projeto para fazer a validação do relatório */
+    private RelatoriosPage relatoriosPage;
+
     @BeforeClass
     private void inicialliza() {
         driver = new WebdriverTestBuilder().initialize().getDriver();
         listaLancamentosPage = new ListaLancamentosPage(driver);
         lancamentoPage = new LancamentoPage(driver);
+        relatoriosPage = new RelatoriosPage(driver);
     }
 
     @Test
-    public void criaEditaRemoveLancamento() {
+    public void criaEditaLancamento() {
         listaLancamentosPage.acessa();
         listaLancamentosPage.novoLancamento();
 
         LocalDateTime dataHora = LocalDateTime.now();
 
-        final String descricaoLancamento = "Fluxo3 - Lançando " + dataHora.format(
+        final String descricaoLancamento = "Fluxo4 - Lançando " + dataHora.format(
                 LancamentoUtil.getDateTimeFormatter());
         final BigDecimal valor = LancamentoUtil.geraValorAleatorio();
         lancamentoPage.cria(descricaoLancamento, valor, dataHora, TipoLancamento.SAIDA);
@@ -43,7 +46,6 @@ public class FluxoCriaEditaRemoveLancamentoTest {
         listaLancamentosPage.busca(descricaoLancamento);
         assertTrue(listaLancamentosPage.existeLancamento(descricaoLancamento, valor, dataHora,
                 TipoLancamento.SAIDA));
-
         listaLancamentosPage.busca(descricaoLancamento);
         listaLancamentosPage.editaLancamento(0);
         final String novaDescricao = descricaoLancamento + " editado";
@@ -55,17 +57,18 @@ public class FluxoCriaEditaRemoveLancamentoTest {
         assertTrue(listaLancamentosPage.existeLancamento(novaDescricao, novoValor, dataHora,
                 TipoLancamento.ENTRADA));
 
-           /* Faz a busca do lançamento e remove o lançamento na posição inicial da tabela  */
-        listaLancamentosPage.busca(descricaoLancamento);
-        listaLancamentosPage.removeLancamento(0);
+        listaLancamentosPage.busca(novaDescricao);
 
+             /* Aqui estou buscando somente por um lançamento de entrada.
+              * A saída tem que ser zero, sendo uma asserção que está sendo feita*/
+        assertTrue(listaLancamentosPage.validaTotalEntrada(novoValor));
+        assertTrue(listaLancamentosPage.validaTotalSaida(BigDecimal.ZERO));
 
-           /* Faz a busca novamente e faz uma asserção falsa para garantir que não é verdade, ou seja,
-            * que existem lançamentos com esses valores (garante que foi realmente removido o lançamento)*/
+              /* Método que abre o relatório */
+        listaLancamentosPage.abreRelatorios();
 
-         listaLancamentosPage.busca(descricaoLancamento);
-         assertFalse(listaLancamentosPage.existeLancamento(novaDescricao, novoValor, dataHora,
-                TipoLancamento.ENTRADA));
+              /* Verifica que a página de relatório é atual, garantindo que ela existe */
+        assertTrue(relatoriosPage.isPageAtual());
 
     }
 
@@ -75,4 +78,5 @@ public class FluxoCriaEditaRemoveLancamentoTest {
     }
 
 }
+
 

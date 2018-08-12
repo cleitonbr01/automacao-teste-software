@@ -54,17 +54,27 @@ public class ListaLancamentosPage {
         driver.findElement(By.id("bth-search")).click();
     }
 
+
+                /* Para editar o lançamento usei um seletor CSS, usando o findElements (para retornar todas a linhas da tabela
+                  * Depois passei o .get com a posição inicial (0)
+                  * Depois em cima dessa linha, através do findElement, procurando pelo texto "editar".
+                  * Neste casso não considerei o id e sim o texto */
+
     public void editaLancamento(int posicao) {
         WebElement webElement = driver.findElements(By.cssSelector("#tabelaLancamentos tbody tr"))
                 .get(posicao);
         webElement.findElement(By.partialLinkText("Editar")).click();
     }
 
+                /* O mesmo comportamento do editar faço aqui para remover, só que chama o remover*/
+
     public void removeLancamento(int posicao) {
         WebElement webElement = driver.findElements(By.cssSelector("#tabelaLancamentos tbody tr"))
                 .get(posicao);
         webElement.findElement(By.partialLinkText("Excluir")).click();
     }
+
+
 
     public boolean existeLancamento(final String descricaoLancamento,
                                     final BigDecimal valorLancamento, LocalDateTime dataHora, TipoLancamento tipo) {
