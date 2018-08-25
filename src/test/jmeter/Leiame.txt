@@ -1,0 +1,9 @@
+
+Plano de Teste - jMeter Automação Test Software
+
+REALIZAÇÃO DOS TESTE:
+
+1- Para realizar os testes a base de dados tem que estar zerada.
+2- Nenhum plugin foi adicionado.
+3- Nenhuma configuração foi aplicada.
+
